@@ -83,6 +83,7 @@ const reducer = (state = initialState, action = { type: '' }) => {
                 newState.matrixData.start[action.indexArr[0]][action.indexArr[1]] = action.value
             } else{
                 newState.errors +=1
+                
             }
             return newState
         default:
