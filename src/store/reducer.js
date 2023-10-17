@@ -1,4 +1,8 @@
 
+const GAME_OVER = 'game over'
+const SET_VALUE = 'set value'
+const NEXT_LEVEL = 'next level'
+
 const data = {
     level: 0,
     matrixData: [
@@ -69,9 +73,10 @@ const initialState = {
     valueData: [1, 2, 3, 4, 5, 6]
 }
 
+
 const reducer = (state = initialState, action = { type: '' }) => {
     switch (action.type) {
-        case 'set value':
+        case SET_VALUE:
             const newState = {
                 ...state,
                 matrixData: {
@@ -81,14 +86,47 @@ const reducer = (state = initialState, action = { type: '' }) => {
             }
             if (state.matrixData.end[action.indexArr[0]][action.indexArr[1]] === action.value) {
                 newState.matrixData.start[action.indexArr[0]][action.indexArr[1]] = action.value
-            } else{
-                newState.errors +=1
-                
+            } else {
+                newState.errors++
+
             }
             return newState
+        case NEXT_LEVEL:
+            data.level = (data.level + 1) % data.matrixData.length
+            return {
+                matrixData: {
+                    // Глубогое клонирование объекта 
+                    start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
+                    end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
+                },
+                errors: 0,
+                valueData: [1, 2, 3, 4, 5, 6]
+            }
+        case GAME_OVER:
+            return {
+                matrixData: {
+                    // Глубогое клонирование объекта 
+                    start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
+                    end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
+                },
+                errors: 0,
+                valueData: [1, 2, 3, 4, 5, 6]
+            }
         default:
             return state
     }
+}
+
+export const setValueActionCreator = (value, indexArr) => {
+    return { type: SET_VALUE, value, indexArr }
+}
+
+export const nextLevelActionCreator = () => {
+    return { type: NEXT_LEVEL, }
+}
+
+export const gameOverActionCreator = () => {
+    return { type: GAME_OVER, }
 }
 
 export default reducer
