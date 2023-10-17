@@ -95,7 +95,6 @@ const reducer = (state = initialState, action = { type: '' }) => {
             data.level = (data.level + 1) % data.matrixData.length
             return {
                 matrixData: {
-                    // Глубогое клонирование объекта 
                     start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
                     end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
                 },
@@ -105,7 +104,6 @@ const reducer = (state = initialState, action = { type: '' }) => {
         case GAME_OVER:
             return {
                 matrixData: {
-                    // Глубогое клонирование объекта 
                     start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
                     end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
                 },
