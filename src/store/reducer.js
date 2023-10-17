@@ -74,7 +74,7 @@ const initialState = {
 }
 
 
-const reducer = (state = initialState, action = { type: '' }) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_VALUE:
             const newState = {
@@ -115,6 +115,7 @@ const reducer = (state = initialState, action = { type: '' }) => {
         default:
             return state
     }
+    return state
 }
 
 export const setValueActionCreator = (value, indexArr) => {
