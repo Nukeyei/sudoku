@@ -5,7 +5,7 @@ import MainHOC from './containers/MainHOC';
 import Win from './components/Win';
 import GameOver from './components/GameOver';
 
-function App(props) {
+function App() {
   return (
     <div className="App">
       <Routes >
@@ -13,7 +13,7 @@ function App(props) {
         <Route path='/menu' element={<Menu />} />
         <Route path='/win' element={<Win />} />
         <Route path='/gameover' element={<GameOver />} />
-        <Route path='/main' element={<MainHOC matrix={props.matrix} values={props.values} errors={props.errors} dispatch={props.dispatch} />} />
+        <Route path='/main' element={<MainHOC />} />
       </Routes>
     </div>
   );

@@ -1,34 +1,30 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
 import Main from "../components/Main";
 import { gameOverActionCreator, nextLevelActionCreator, setValueActionCreator } from "../store/reducer";
+import { connect } from "react-redux";
 
-const MainHOC = props => {
-    const navigate = useNavigate()
-    const isWin = () => {
-        if (props.errors >= 3) {
-            const action = gameOverActionCreator()
-            props.dispatch(action)
-            navigate('/gameover')
-            return
-        }
-        for (const arr of props.matrix) {
-            if (arr.includes(0)) {
-                return
-            }
-        }
-        const action = nextLevelActionCreator()
-        props.dispatch(action)
-        navigate('/win')
+const mapStateToProps = state => {
+    return {
+        matrix: state.main.matrixData.start,
+        values: state.main.valueData,
+        errors: state.main.errors
     }
-    useEffect(() => isWin(), [props.matrix])
-    const [indexArr, changeIndexArr] = useState([0, 0])
-    const setValue = event => {
-        const action = setValueActionCreator(+event.target.textContent, indexArr)
-        props.dispatch(action)
-    }
-
-    return <Main matrix={props.matrix} values={props.values} errors={props.errors} changeIndexArr={changeIndexArr} indexArr={indexArr} setValue={setValue} />
 }
 
-export default MainHOC
+const mapDispatchToProps = dispatch => {
+    return {
+        setValue(value, indexArr) {
+            const action = setValueActionCreator(value, indexArr)
+            dispatch(action)
+        },
+        gameOver() {
+            const action = gameOverActionCreator()
+            dispatch(action)
+        },
+        nextLevel() {
+            const action = nextLevelActionCreator()
+            dispatch(action)
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main) 
