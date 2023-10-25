@@ -75,9 +75,13 @@ const initialState = {
 
 
 const reducer = (state = initialState, action) => {
+    let newState = {}
     switch (action.type) {
         case SET_VALUE:
-            const newState = {
+            if (state.matrixData.start[action.indexArr[0]][action.indexArr[1]] !== 0) {
+                return state
+            }
+            newState = {
                 ...state,
                 matrixData: {
                     ...state.matrixData,
@@ -93,25 +97,17 @@ const reducer = (state = initialState, action) => {
             return newState
         case NEXT_LEVEL:
             data.level = (data.level + 1) % data.matrixData.length
-            return {
+            newState = {
+                ...state,
                 matrixData: {
-                    // Глубогое клонирование объекта 
                     start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
                     end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
                 },
                 errors: 0,
-                valueData: [1, 2, 3, 4, 5, 6]
             }
+            return newState
         case GAME_OVER:
-            return {
-                matrixData: {
-                    // Глубогое клонирование объекта 
-                    start: JSON.parse(JSON.stringify(data.matrixData[data.level][1])),
-                    end: JSON.parse(JSON.stringify(data.matrixData[data.level][0])),
-                },
-                errors: 0,
-                valueData: [1, 2, 3, 4, 5, 6]
-            }
+            return initialState
         default:
             return state
     }
